@@ -1,5 +1,5 @@
 PROJ_PATH = $(shell pwd)
-SHELL := /bin/bash
+SHELL := /usr/bin/env bash
 
 O ?= $(PROJ_PATH)/result
 DESIGN ?= gcd
