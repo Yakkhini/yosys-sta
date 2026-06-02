@@ -181,7 +181,7 @@ foreach file $VERILOG_FILES {
 }
 
 # generic synthesis (coarse)
-synth -top $DESIGN -flatten -run :fine
+synth -top $DESIGN -flatten -noabc -run :fine
 
 share -aggressive
 onehot
@@ -190,7 +190,7 @@ opt_demorgan
 opt_ffinv
 
 # generic synthesis (fine)
-synth -run fine:
+synth -noabc -run fine:
 
 # remove unused cells and wires
 opt_clean -purge
@@ -215,7 +215,8 @@ opt -undriven -purge
 log "\[INFO\]: USING STRATEGY $strategy_name"
 
 # technology mapping for cells
-abc -D "$CLK_PERIOD_PS" \
+abc -exe "$::env(YOSYS_ABC_EXE)" \
+  -D "$CLK_PERIOD_PS" \
   -constr "$sdc_file" \
   {*}$LIBS {*}$EXCLUDE_CELLS \
   -script "$strategy_script" \
